@@ -319,46 +319,45 @@ const PROJECTS_DATA = [
   }
 ];
 
-// Technical Skills Data Matrix (Clean 4 Categories)
+// Technical Skills Data Matrix (Clean 4 Categories - Backend & DB Priority)
 const SKILLS_DATA = [
-  {
-    category: "프론트엔드 (Frontend)",
-    skills: [
-      { name: "Swift / SwiftUI", level: "iOS Native App", highlight: true },
-      { name: "HTML / CSS / JavaScript", level: "Web Standards", highlight: true },
-      { name: "Tailwind CSS", level: "Modern Utility" },
-      { name: "Thymeleaf", level: "SSR Template" }
-    ]
-  },
   {
     category: "백엔드 (Backend)",
     skills: [
       { name: "Java", level: "Core Language", highlight: true },
-      { name: "Spring Boot", level: "RESTful Framework", highlight: true },
-      { name: "Spring Data JPA", level: "ORM / Hibernate", highlight: true },
-      { name: "Spring Security", level: "JWT Authentication" },
-      { name: "Python (Flask)", level: "IoT Server" },
-      { name: "RESTful API", level: "OpenAPI 3.0 Standard" }
+      { name: "Spring Boot", level: "RESTful Core", highlight: true },
+      { name: "Spring Data JPA", level: "ORM / Persistence", highlight: true },
+      { name: "Spring Security", level: "JWT Auth" },
+      { name: "RESTful API", level: "OpenAPI 3.0", highlight: true },
+      { name: "Python (Flask)", level: "IoT Server" }
     ]
   },
   {
-    category: "DB & 클라우드 (DB & Cloud)",
+    category: "데이터베이스 (Database & Cache)",
     skills: [
-      { name: "PostgreSQL", level: "Relational Database", highlight: true },
+      { name: "SQLD 자격증", level: "국가공인 (K-Data)", highlight: true },
+      { name: "PostgreSQL", level: "RDBMS", highlight: true },
       { name: "Supabase", level: "Cloud Database" },
-      { name: "Google Cloud Run", level: "Serverless Container", highlight: true },
+      { name: "In-Memory Cache", level: "Hot Cache", highlight: true },
+      { name: "Schema Modeling", level: "정합성 & 정규화" }
+    ]
+  },
+  {
+    category: "클라우드 & 인프라 (Cloud & DevOps)",
+    skills: [
+      { name: "Google Cloud Run", level: "Serverless", highlight: true },
       { name: "Docker", level: "Containerization" },
       { name: "Render", level: "Cloud Hosting" },
-      { name: "Git / GitHub", level: "Version Control & Actions" }
+      { name: "Git / GitHub", level: "Actions CI/CD" }
     ]
   },
   {
-    category: "AI (Artificial Intelligence)",
+    category: "클라이언트 & AI (Client & AI Applications)",
     skills: [
-      { name: "Google Gemini", level: "LLM Orchestration", highlight: true },
-      { name: "Spring AI", level: "AI Framework", highlight: true },
-      { name: "OpenAI API", level: "DALL-E / GPT" },
-      { name: "YAMNet", level: "Edge Audio Classification", highlight: true },
+      { name: "Swift / SwiftUI", level: "iOS Native", highlight: true },
+      { name: "HTML / CSS / JS", level: "Web Standard" },
+      { name: "Spring AI & Gemini", level: "LLM Orchestration" },
+      { name: "YAMNet", level: "Edge Audio AI" },
       { name: "Vision OCR", level: "Document Parsing" }
     ]
   }
