@@ -183,10 +183,10 @@ const PROJECTS_DATA = [
     name: "DogMate (멍메이트)",
     subtitle: "반려동물 분리불안 완화 및 이상행동 원격 케어 IoT 솔루션",
     categories: ["backend", "iot", "ai"],
-    status: "진행 중",
-    statusType: "progress",
+    status: "진행 완료",
+    statusType: "completed",
     affiliation: "국립금오공과대학교 IoT 기초설계 (담당: 손기봉 교수님)",
-    period: "2026.09 - 진행 중",
+    period: "2026.09",
     role: "하드웨어 센서/액추에이터 제어, 클라우드 연동 및 시스템 아키텍처 설계",
     techStack: [
       "Raspberry Pi",
@@ -294,9 +294,9 @@ const SKILLS_DATA = [
   {
     category: "백엔드 (Backend)",
     skills: [
-      { name: "Java", level: "Core Language", highlight: true },
-      { name: "Spring Boot", level: "RESTful Core", highlight: true },
-      { name: "Spring Data JPA", level: "ORM / Persistence", highlight: true },
+      { name: "Java", level: "Core", highlight: true },
+      { name: "Spring Boot", level: "REST Core", highlight: true },
+      { name: "Spring Data JPA", level: "ORM", highlight: true },
       { name: "Spring Security", level: "JWT Auth" },
       { name: "RESTful API", level: "OpenAPI 3.0", highlight: true },
       { name: "Python (Flask)", level: "IoT Server" }
@@ -305,20 +305,20 @@ const SKILLS_DATA = [
   {
     category: "데이터베이스 (Database & Cache)",
     skills: [
-      { name: "SQLD 자격증", level: "국가공인 (K-Data)", highlight: true },
+      { name: "SQLD", level: "자격증", highlight: true },
       { name: "PostgreSQL", level: "RDBMS", highlight: true },
-      { name: "Supabase", level: "Cloud Database" },
+      { name: "Supabase", level: "Cloud DB" },
       { name: "In-Memory Cache", level: "Hot Cache", highlight: true },
-      { name: "Schema Modeling", level: "정합성 & 정규화" }
+      { name: "Schema Modeling", level: "정합성 설계" }
     ]
   },
   {
     category: "클라우드 & 인프라 (Cloud & DevOps)",
     skills: [
-      { name: "Google Cloud Run", level: "Serverless", highlight: true },
-      { name: "Docker", level: "Containerization" },
+      { name: "Cloud Run", level: "Serverless", highlight: true },
+      { name: "Docker", level: "Container" },
       { name: "Render", level: "Cloud Hosting" },
-      { name: "Git / GitHub", level: "Actions CI/CD" }
+      { name: "Git / GitHub", level: "CI/CD Actions" }
     ]
   },
   {
@@ -326,9 +326,9 @@ const SKILLS_DATA = [
     skills: [
       { name: "Swift / SwiftUI", level: "iOS Native", highlight: true },
       { name: "HTML / CSS / JS", level: "Web Standard" },
-      { name: "Spring AI & Gemini", level: "LLM Orchestration" },
-      { name: "YAMNet", level: "Edge Audio AI" },
-      { name: "Vision OCR", level: "Document Parsing" }
+      { name: "Spring AI & Gemini", level: "LLM API", highlight: true },
+      { name: "YAMNet", level: "Audio AI" },
+      { name: "Vision OCR", level: "OCR Parsing" }
     ]
   }
 ];
@@ -471,7 +471,7 @@ function renderSkills() {
       <div class="skill-items-list">
         ${group.skills.map(s => `
           <div class="skill-item ${s.highlight ? 'highlight' : ''}">
-            <span class="skill-name">${s.name}</span>
+            <span class="skill-name" title="${s.name}">${s.name}</span>
             <span class="skill-level">${s.level}</span>
           </div>
         `).join("")}

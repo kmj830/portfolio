@@ -246,6 +246,33 @@ button {
   margin: 1.75rem 0 2.25rem;
 }
 
+.hero-skills-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.hero-skills-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  background-color: var(--accent-subtle);
+  border: 1px solid var(--accent-border);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero-skills-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.015em;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -443,6 +470,12 @@ button {
   background-color: var(--prod-purple-bg);
   color: var(--prod-purple);
   border: 1px solid var(--prod-purple-border);
+}
+
+.status-chip.completed {
+  background-color: var(--live-green-bg);
+  color: var(--live-green);
+  border: 1px solid var(--live-green-border);
 }
 
 .status-dot {
@@ -766,7 +799,7 @@ button {
    ========================================================================== */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.25rem;
 }
 
@@ -774,34 +807,37 @@ button {
   background-color: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1.25rem 1.15rem;
   box-shadow: var(--shadow-subtle);
+  min-width: 0;
 }
 
 .skill-category-title {
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: var(--text-main);
-  margin-bottom: 1rem;
-  padding-bottom: 0.6rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.55rem;
   border-bottom: 1px solid var(--border-light);
 }
 
 .skill-items-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .skill-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  padding: 0.35rem 0.5rem;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  padding: 0.35rem 0.55rem;
   border-radius: var(--radius-sm);
   background-color: var(--bg-subtle);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .skill-item.highlight {
@@ -813,13 +849,17 @@ button {
   font-weight: 600;
   color: var(--text-main);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .skill-level {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
