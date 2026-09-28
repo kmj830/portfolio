@@ -303,12 +303,11 @@ const SKILLS_DATA = [
     ]
   },
   {
-    category: "데이터베이스 (Database & Cache)",
+    category: "데이터베이스 (Database)",
     skills: [
       { name: "SQLD", level: "자격증", highlight: true },
       { name: "PostgreSQL", level: "RDBMS", highlight: true },
       { name: "Supabase", level: "Cloud DB" },
-      { name: "In-Memory Cache", level: "Hot Cache", highlight: true },
       { name: "Schema Modeling", level: "정합성 설계" }
     ]
   },
@@ -326,7 +325,7 @@ const SKILLS_DATA = [
     skills: [
       { name: "Swift / SwiftUI", level: "iOS Native", highlight: true },
       { name: "HTML / CSS / JS", level: "Web Standard" },
-      { name: "Spring AI & Gemini", level: "LLM API", highlight: true },
+      { name: "Spring AI & Gemini", level: "LLM API" },
       { name: "YAMNet", level: "Audio AI" },
       { name: "Vision OCR", level: "OCR Parsing" }
     ]
