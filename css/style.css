@@ -242,35 +242,8 @@ button {
   font-weight: 600;
 }
 
-.hero-stats-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1.25rem;
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  margin-bottom: 2.5rem;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.stat-number {
-  font-family: var(--font-mono);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-main);
-  letter-spacing: -0.03em;
-}
-
-.stat-label {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-weight: 500;
+.hero-skills-container {
+  margin: 1.75rem 0 2.25rem;
 }
 
 .hero-actions {
@@ -1265,13 +1238,8 @@ button {
     font-size: 0.95rem;
     line-height: 1.6;
   }
-  .hero-stats-bar {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    padding: 1rem;
-  }
-  .stat-number {
-    font-size: 1.15rem;
+  .hero-skills-container {
+    margin: 1.25rem 0 1.5rem;
   }
 
   /* Single Column Vertical Stream */

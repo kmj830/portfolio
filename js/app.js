@@ -11,21 +11,70 @@ function formatRichText(text) {
 
 const PROJECTS_DATA = [
   {
+    id: "findbook",
+    name: "FindBook (파인드북)",
+    subtitle: "스마트폰 카메라 바코드 스캔 도서관 장서 점검 솔루션",
+    categories: ["backend"],
+    status: "현장 실무 직접 도입",
+    statusType: "production",
+    affiliation: "도서관 현장 실무 도입 프로젝트",
+    period: "2026.08",
+    role: "백엔드 전체 개발, Supabase PostgreSQL 연동 및 인메모리 캐시 성능 최적화",
+    techStack: [
+      "Java",
+      "Spring Boot",
+      "Spring Data JPA",
+      "Supabase",
+      "In-Memory Cache",
+      "HTML5 Scanner",
+      "Render"
+    ],
+    images: {
+      swagger: "assets/images/projects/findbook-swagger.png",
+      ui: "assets/images/projects/findbook-ui.png",
+      swaggerCaption: "FindBook REST API Swagger 명세",
+      uiCaption: "실제 현장에서 사용한 서가 이웃도서 탐색기 & 카메라 바코드 스캐너 UI"
+    },
+    overview: "스마트폰 카메라로 바코드를 스캔해 서가 분실·미배치 도서를 즉시 점검하는 도서관 장서 관리 솔루션",
+    architecture: `[현장 작업자 웹 브라우저]
+  ├── 웹캠/스마트폰 카메라를 통한 실시간 바코드 스캔
+  ├── 찾아야 하는 책 목록 실시간 일치 여부 피드백 (음향/진동)
+  └── 점검 결과 엑셀 리포트 자동 다운로드
+         │
+         ▼
+[Spring Boot 백엔드]
+  ├── BookApiController & BookViewController
+  ├── 2.5초 주기 인메모리 캐싱 계층 (In-Memory Hot Cache)
+  │    └── 대규모 스캔 반복 요청 시 DB 부하 제거
+  └── Supabase IPv4 Connection Pooler (Singapore Region)
+         │
+         ▼
+[PostgreSQL Database (Supabase Cloud)]
+  └── 서가 도서 마스터 및 장서 점검 히스토리 보관`,
+    troubleshooting: [
+      {
+        problem: "원격지(싱가포르) Supabase DB 연결 시 네트워크 레이턴시로 인한 도서 조회 딜레이 발생",
+        solution: "IPv4 Connection Pooler 주소를 적용해 커넥션 오버헤드를 줄이고, 2.5초 유효 기간의 인메모리 캐싱 레이어를 도서 조회 서비스에 배치하여 연속 스캔 요청의 지연 시간을 획기적으로 단축했습니다."
+      },
+      {
+        problem: "도서관 서지 정보 내 특수문자 및 따옴표로 인한 자바스크립트 렌더링 오류",
+        solution: "Thymeleaf 및 클라이언트 템플릿의 HTML 이스케이프 정책을 전면 강화하고, 데이터 전송 DTO의 유효성 검증을 정밀화하여 스캔 중 렌더링 크래시 현상을 완전히 해소했습니다."
+      }
+    ],
+    links: [
+      { label: "GitHub Repository", url: "https://github.com/kmj830/findbook" }
+    ]
+  },
+  {
     id: "nomad",
     name: "NOMAD (노마드)",
-    subtitle: "스마트 공항 면세점 체크인 및 항공 여정 연동 럭셔리 트래블 플랫폼 백엔드",
+    subtitle: "스마트 공항 면세점 체크인 및 항공 여정 연동 트래블 플랫폼",
     categories: ["backend", "ai"],
     status: "중앙해커톤 출품작",
     statusType: "hackathon",
     affiliation: "중앙해커톤 출품 프로젝트",
     period: "2026.08",
     role: "Spring Boot 백엔드 코어 설계, 비행 여정 OCR 파이프라인 및 매장 직원 태블릿 구축",
-    metrics: [
-      { label: "실시간 통신", value: "SSE (Server-Sent Events)" },
-      { label: "문서 파싱", value: "Vision OCR" },
-      { label: "인프라", value: "Docker / Render" },
-      { label: "API 표준", value: "OpenAPI 3.0" }
-    ],
     techStack: [
       "Java",
       "Spring Boot",
@@ -44,7 +93,7 @@ const PROJECTS_DATA = [
       swaggerCaption: "NOMAD Swagger REST API 명세",
       uiCaption: "인천공항 T1 면세 부티크 매장 직원 태블릿 관제 UI"
     },
-    overview: "항공 탑승권 Vision OCR 스캔으로 비행 여정(PNR)을 자동 등록하고, 인천공항 면세점 현장 도착 시 매장 직원 태블릿으로 실시간 알림(SSE)을 전송하는 스마트 트래블 큐레이션 백엔드입니다. 현지 기후 데이터 분석 기반 패션 큐레이션과 면세 결제/마일리지 파이프라인을 구축했습니다.",
+    overview: "항공 탑승권 스캔 기반 여정 자동 등록 및 인천공항 면세점 쇼핑을 연동하는 스마트 트래블 큐레이션 플랫폼",
     architecture: `[여행객 클라이언트]
   ├── 항공 탑승권(보딩패스) 이미지 업로드
   └── Vision OCR 텍스트 추출 ──> PNR & 비행 여정 자동 등록
@@ -76,6 +125,60 @@ const PROJECTS_DATA = [
     ]
   },
   {
+    id: "smoking-area",
+    name: "Smoking Area (스모킹 에리어)",
+    subtitle: "위치 기반 공공데이터 흡연구역 지도 및 시민 제보 플랫폼",
+    categories: ["backend"],
+    status: "해커톤 출품작",
+    statusType: "hackathon",
+    affiliation: "해커톤 대회 출품 프로젝트",
+    period: "2026.07",
+    role: "백엔드 전체 아키텍처, 지오코딩 반경 검색 알고리즘 및 카카오 OAuth2 인증 구현",
+    techStack: [
+      "Java",
+      "Spring Boot",
+      "Spring Data JPA",
+      "Kakao OAuth2",
+      "Geocoding",
+      "Docker",
+      "Render",
+      "Swagger UI"
+    ],
+    images: {
+      swagger: "assets/images/projects/smoking-area-swagger.png",
+      ui: "assets/images/projects/smoking-area-ui.png",
+      swaggerCaption: "Smoking Area Backend REST API Swagger",
+      uiCaption: "여기흡연 모바일 웹 클라이언트 (Google Maps 연동 및 실시간 흡연구역 탐색)"
+    },
+    overview: "현재 위치 기반으로 주변 흡연구역을 탐색하고 시민 제보를 공유하는 위치 기반 지도 서비스",
+    architecture: `[클라이언트 (Web / Mobile)]
+  ├── 카카오 소셜 로그인 (OAuth2)
+  ├── 사용자 현재 위치(GPS 위·경도) 획득
+  └── 주변 흡연구역 지도 렌더링 & 북마크
+         │ (RESTful API / JSON)
+         ▼
+[Spring Boot 백엔드 (Render / Docker)]
+  ├── GeocodingService: Haversine 공식을 활용한 반경(500m/1km) 필터링
+  ├── SmokingAreaService: 공공데이터 흡연구역 목록 조회 및 북마크 영속화
+  ├── ReportService: 사용자 사진 업로드 및 현장 제보 접수
+  ├── AdminReportController: 관리자 전용 제보 승인/반려 워크플로우
+  └── Swagger OpenAPI 3.0 대화형 문서 제공`,
+    troubleshooting: [
+      {
+        problem: "Render 클라우드 무료 티어 인스턴스의 메모리 한계로 인한 빌드/기동 시 OOM 발생",
+        solution: "JVM 힙 메모리 옵션을 최적화하고, 발표 및 시연 시 오류 발생에 대비해 `.env.local` 기반 원클릭 로컬 런타임 전환 스크립트(`scripts/run-local.sh`) 및 ngrok 터널링 파이프라인을 구축하여 가용성을 보장했습니다."
+      },
+      {
+        problem: "사용자 제보 사진 처리 및 관리자 권한 분리 보안 취약점",
+        solution: "카카오 회원 ID와 시스템 내부 고유 User ID 매핑을 엄격히 분리하고, Role 기반 접근 제어(RBAC) 인터셉터를 적용하여 일반 사용자의 관리자 엔드포인트 무단 접근을 원천 차단했습니다."
+      }
+    ],
+    links: [
+      { label: "Backend Repository", url: "https://github.com/kmj830/smoking-area-backend" },
+      { label: "Frontend Repository (KimGyuR)", url: "https://github.com/KimGyuR/Smoking-Searching-App" }
+    ]
+  },
+  {
     id: "dogmate",
     name: "DogMate (멍메이트)",
     subtitle: "반려동물 분리불안 완화 및 이상행동 원격 케어 IoT 솔루션",
@@ -85,12 +188,6 @@ const PROJECTS_DATA = [
     affiliation: "국립금오공과대학교 IoT 기초설계 (담당: 손기봉 교수님)",
     period: "2026.09 - 진행 중",
     role: "하드웨어 센서/액추에이터 제어, 클라우드 연동 및 시스템 아키텍처 설계",
-    metrics: [
-      { label: "텔레메트리 주기", value: "3s 주기 전송" },
-      { label: "센서 오차 보정", value: "Median Filter" },
-      { label: "음향 분석 AI", value: "YAMNet (Edge AI)" },
-      { label: "클라우드 인프라", value: "Google Cloud Run" }
-    ],
     techStack: [
       "Raspberry Pi",
       "GrovePi+",
@@ -106,7 +203,7 @@ const PROJECTS_DATA = [
       swaggerCaption: "멍메이트 IoT Cloud API 1.0.0 Swagger",
       uiCaption: "DogMate iOS 클라이언트 (SwiftUI 기반 분리불안 감지 및 실시간 원격 제어 앱)"
     },
-    overview: "반려견의 짖음과 분리불안 음향을 라즈베리파이 엣지 환경에서 YAMNet 딥러닝 모델로 실시간 분석하고, 온습도·조도·초음파 센서 데이터를 3초 주기로 Google Cloud Run 백엔드에 전송합니다. 견주는 iOS SwiftUI 네이티브 앱을 통해 실시간 환경을 확인하고 원격으로 간식 디스펜서를 제어하거나 안정 음성을 전달합니다.",
+    overview: "반려견 이상 짖음을 실시간 감지하고 환경 모니터링 및 원격 케어를 지원하는 스마트 IoT 서비스",
     architecture: `[라즈베리파이 3B+ (Edge AI)]
   ├── 마이크 입력 ──> YAMNet 음향 분류 (이상 짖음 감지)
   ├── 온습도(DHT11) / 조도 / 거리 센서 3초 주기 수집
@@ -138,127 +235,6 @@ const PROJECTS_DATA = [
     ]
   },
   {
-    id: "smoking-area",
-    name: "Smoking Area (스모킹 에리어)",
-    subtitle: "위치 기반 공공데이터 흡연구역 지도 및 시민 제보 플랫폼",
-    categories: ["backend"],
-    status: "해커톤 출품작",
-    statusType: "hackathon",
-    affiliation: "해커톤 대회 출품 프로젝트",
-    period: "2026.07",
-    role: "백엔드 전체 아키텍처, 지오코딩 반경 검색 알고리즘 및 카카오 OAuth2 인증 구현",
-    metrics: [
-      { label: "거리 계산", value: "Haversine Geocoding" },
-      { label: "소셜 인증", value: "Kakao OAuth2" },
-      { label: "배포 플랫폼", value: "Docker / Render" },
-      { label: "문서화", value: "Swagger OpenAPI 3" }
-    ],
-    techStack: [
-      "Java",
-      "Spring Boot",
-      "Spring Data JPA",
-      "Kakao OAuth2",
-      "Geocoding",
-      "Docker",
-      "Render",
-      "Swagger UI"
-    ],
-    images: {
-      swagger: "assets/images/projects/smoking-area-swagger.png",
-      ui: "assets/images/projects/smoking-area-ui.png",
-      swaggerCaption: "Smoking Area Backend REST API Swagger",
-      uiCaption: "여기흡연 모바일 웹 클라이언트 (Google Maps 연동 및 실시간 흡연구역 탐색)"
-    },
-    overview: "길거리 간접흡연 피해를 방지하고 흡연자의 편의를 돕는 위치 기반 흡연구역 지도 서비스입니다. 공공데이터를 연계해 위/경도 기반 반경 검색(Haversine)을 제공하며, 시민이 새로운 흡연구역을 사진과 함께 제보하고 관리자가 검수·승인하는 참여형 제보 파이프라인을 구축했습니다.",
-    architecture: `[클라이언트 (Web / Mobile)]
-  ├── 카카오 소셜 로그인 (OAuth2)
-  ├── 사용자 현재 위치(GPS 위·경도) 획득
-  └── 주변 흡연구역 지도 렌더링 & 북마크
-         │ (RESTful API / JSON)
-         ▼
-[Spring Boot 백엔드 (Render / Docker)]
-  ├── GeocodingService: Haversine 공식을 활용한 반경(500m/1km) 필터링
-  ├── SmokingAreaService: 공공데이터 흡연구역 목록 조회 및 북마크 영속화
-  ├── ReportService: 사용자 사진 업로드 및 현장 제보 접수
-  ├── AdminReportController: 관리자 전용 제보 승인/반려 워크플로우
-  └── Swagger OpenAPI 3.0 대화형 문서 제공`,
-    troubleshooting: [
-      {
-        problem: "Render 클라우드 무료 티어 인스턴스의 메모리 한계로 인한 빌드/기동 시 OOM 발생",
-        solution: "JVM 힙 메모리 옵션을 최적화하고, 발표 및 시연 시 오류 발생에 대비해 `.env.local` 기반 원클릭 로컬 런타임 전환 스크립트(`scripts/run-local.sh`) 및 ngrok 터널링 파이프라인을 구축하여 가용성을 보장했습니다."
-      },
-      {
-        problem: "사용자 제보 사진 처리 및 관리자 권한 분리 보안 취약점",
-        solution: "카카오 회원 ID와 시스템 내부 고유 User ID 매핑을 엄격히 분리하고, Role 기반 접근 제어(RBAC) 인터셉터를 적용하여 일반 사용자의 관리자 엔드포인트 무단 접근을 원천 차단했습니다."
-      }
-    ],
-    links: [
-      { label: "Backend Repository", url: "https://github.com/kmj830/smoking-area-backend" },
-      { label: "Frontend Repository (KimGyuR)", url: "https://github.com/KimGyuR/Smoking-Searching-App" }
-    ]
-  },
-  {
-    id: "findbook",
-    name: "FindBook (파인드북)",
-    subtitle: "초고속 인메모리 캐싱 & 웹 브라우저 카메라 바코드 스캔 도서관 장서 점검 솔루션",
-    categories: ["backend"],
-    status: "현장 실무 직접 도입",
-    statusType: "production",
-    affiliation: "도서관 현장 실무 도입 프로젝트",
-    period: "2026.08",
-    role: "백엔드 전체 개발, Supabase PostgreSQL 연동 및 인메모리 캐시 성능 최적화",
-    metrics: [
-      { label: "실무 적용", value: "도서관 현장 운영 도입" },
-      { label: "스캔 방식", value: "HTML5 Camera Barcode" },
-      { label: "데이터베이스", value: "Supabase PostgreSQL" },
-      { label: "캐싱 계층", value: "In-Memory Hot Cache" }
-    ],
-    techStack: [
-      "Java",
-      "Spring Boot",
-      "Spring Data JPA",
-      "Supabase",
-      "In-Memory Cache",
-      "HTML5 Scanner",
-      "Render"
-    ],
-    images: {
-      swagger: "assets/images/projects/findbook-swagger.png",
-      ui: "assets/images/projects/findbook-ui.png",
-      swaggerCaption: "FindBook REST API Swagger 명세",
-      uiCaption: "실제 현장에서 사용한 서가 이웃도서 탐색기 & 카메라 바코드 스캐너 UI"
-    },
-    overview: "도서관 현장의 대규모 장서 점검 업무를 개선하기 위해 개발되어 **실제 현장에서 직접 도입·사용된** 솔루션입니다. 전용 바코드 스캐너 없이 스마트폰/노트북 웹 브라우저 카메라로 바코드를 즉각 인식하고, 서가 미배치 및 분실 도서를 실시간으로 대조하여 점검 결과 엑셀 보고서를 자동 생성합니다.",
-    architecture: `[현장 작업자 웹 브라우저]
-  ├── 웹캠/스마트폰 카메라를 통한 실시간 바코드 스캔
-  ├── 찾아야 하는 책 목록 실시간 일치 여부 피드백 (음향/진동)
-  └── 점검 결과 엑셀 리포트 자동 다운로드
-         │
-         ▼
-[Spring Boot 백엔드]
-  ├── BookApiController & BookViewController
-  ├── 2.5초 주기 인메모리 캐싱 계층 (In-Memory Hot Cache)
-  │    └── 대규모 스캔 반복 요청 시 DB 부하 제거
-  └── Supabase IPv4 Connection Pooler (Singapore Region)
-         │
-         ▼
-[PostgreSQL Database (Supabase Cloud)]
-  └── 서가 도서 마스터 및 장서 점검 히스토리 보관`,
-    troubleshooting: [
-      {
-        problem: "원격지(싱가포르) Supabase DB 연결 시 네트워크 레이턴시로 인한 도서 조회 딜레이 발생",
-        solution: "IPv4 Connection Pooler 주소를 적용해 커넥션 오버헤드를 줄이고, 2.5초 유효 기간의 인메모리 캐싱 레이어를 도서 조회 서비스에 배치하여 연속 스캔 요청의 지연 시간을 획기적으로 단축했습니다."
-      },
-      {
-        problem: "도서관 서지 정보 내 특수문자 및 따옴표로 인한 자바스크립트 렌더링 오류",
-        solution: "Thymeleaf 및 클라이언트 템플릿의 HTML 이스케이프 정책을 전면 강화하고, 데이터 전송 DTO의 유효성 검증을 정밀화하여 스캔 중 렌더링 크래시 현상을 완전히 해소했습니다."
-      }
-    ],
-    links: [
-      { label: "GitHub Repository", url: "https://github.com/kmj830/findbook" }
-    ]
-  },
-  {
     id: "workguard",
     name: "WorkGuard (워크가드)",
     subtitle: "Spring AI & Google Gemini 기반 산업 안전 관리 어시스턴트 API",
@@ -269,12 +245,6 @@ const PROJECTS_DATA = [
     affiliation: "개인 프로젝트",
     period: "2026.08 - 진행 중",
     role: "Spring AI 기반 LLM 오케스트레이션, Google Cloud GCP 연동 및 API 아키텍처 설계",
-    metrics: [
-      { label: "최신 런타임", value: "Java 25 (Loom)" },
-      { label: "AI 프레임워크", value: "Spring AI 2.0" },
-      { label: "LLM 엔진", value: "Google Gemini Flash" },
-      { label: "클라우드", value: "Google Cloud GCP" }
-    ],
     techStack: [
       "Java",
       "Spring Boot",
@@ -289,7 +259,7 @@ const PROJECTS_DATA = [
       swaggerCaption: "WorkGuard Spring AI & Google Gemini 질의응답 Swagger 명세",
       uiCaption: "WorkGuard Spring AI & Google Gemini 질의응답 Swagger 명세"
     },
-    overview: "산업 현장에서 근로자와 안전 관리자가 안전 수칙 및 규정을 실시간으로 질의하고 작업 위험도를 사전 평가할 수 있는 스마트 안전 관리 API입니다. Java와 Spring Boot, Spring AI 및 Google Gemini Flash 모델을 도입하여 초저지연 AI 응답 파이프라인을 구축하고 있습니다.",
+    overview: "산업 현장 안전 수칙 질의 및 작업 위험도 평가를 대화형으로 지원하는 AI 안전 관리 플랫폼",
     architecture: `[산업 현장 작업자 / 관리자 시스템]
   └── 안전 규정 질의 및 작업 환경 텍스트/상황 입력
          │
@@ -377,14 +347,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Render Projects Grid
-function renderProjects(filterCategory = "all") {
+// Render Projects Grid (Status-based Filter: all, completed, progress)
+function renderProjects(filter = "all") {
   const container = document.getElementById("projects-grid");
   if (!container) return;
 
-  const filtered = filterCategory === "all" 
+  const filtered = filter === "all" 
     ? PROJECTS_DATA 
-    : PROJECTS_DATA.filter(p => p.categories.includes(filterCategory));
+    : filter === "completed"
+      ? PROJECTS_DATA.filter(p => p.statusType !== "progress")
+      : filter === "progress"
+        ? PROJECTS_DATA.filter(p => p.statusType === "progress")
+        : PROJECTS_DATA;
 
   container.innerHTML = filtered.map(p => `
     <article class="project-card" data-project-id="${p.id}">
@@ -433,16 +407,6 @@ function renderProjects(filterCategory = "all") {
         <h3 class="project-title">${p.name}</h3>
         <p class="project-subtitle">${p.subtitle}</p>
         <p class="project-overview-short">${formatRichText(p.overview)}</p>
-      </div>
-
-      <!-- Quick Metrics Grid -->
-      <div class="metrics-grid">
-        ${p.metrics.map(m => `
-          <div class="metric-item">
-            <span class="metric-label">${m.label}</span>
-            <span class="metric-value">${m.value}</span>
-          </div>
-        `).join("")}
       </div>
 
       <!-- Tech Stack Badges (Clean No-Version) -->
@@ -518,14 +482,14 @@ function renderSkills() {
 
 // Setup Event Listeners
 function initEventListeners() {
-  // Category Filter Buttons
+  // Category / Status Filter Buttons
   const filterBtns = document.querySelectorAll(".filter-btn");
   filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       filterBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      const category = btn.getAttribute("data-category");
-      renderProjects(category);
+      const filter = btn.getAttribute("data-filter") || btn.getAttribute("data-category") || "all";
+      renderProjects(filter);
     });
   });
 
