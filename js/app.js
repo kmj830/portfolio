@@ -369,6 +369,13 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProjects("all");
   renderSkills();
   initEventListeners();
+
+  // Deep linking support (?project=dogmate or #project-dogmate)
+  const urlParams = new URLSearchParams(window.location.search);
+  const directId = urlParams.get("project") || (window.location.hash.startsWith("#project-") ? window.location.hash.replace("#project-", "") : null);
+  if (directId) {
+    setTimeout(() => openProjectModal(directId), 150);
+  }
 });
 
 // Render Projects Grid
