@@ -3,15 +3,21 @@
  * Minimalist Clean White Architecture & Responsive Dual-Layout
  */
 
+// Helper: Format Markdown bold (**text**) to HTML <strong>
+function formatRichText(text) {
+  if (!text) return "";
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
+
 const PROJECTS_DATA = [
   {
     id: "nomad",
     name: "NOMAD (노마드)",
     subtitle: "스마트 공항 면세점 체크인 및 항공 여정 연동 럭셔리 트래블 플랫폼 백엔드",
     categories: ["backend", "ai"],
-    status: "Render 라이브 배포",
-    statusType: "live",
-    affiliation: "개인 프로젝트",
+    status: "중앙해커톤 출품작",
+    statusType: "hackathon",
+    affiliation: "중앙해커톤 출품 프로젝트",
     period: "2026.08",
     role: "Spring Boot 백엔드 코어 설계, 비행 여정 OCR 파이프라인 및 매장 직원 태블릿 구축",
     metrics: [
@@ -98,7 +104,7 @@ const PROJECTS_DATA = [
       swagger: "assets/images/projects/dogmate-swagger.png",
       ui: "assets/images/projects/dogmate-ui.png",
       swaggerCaption: "멍메이트 IoT Cloud API 1.0.0 Swagger",
-      uiCaption: "실시간 환경 센서 & 디바이스 모니터링 웹 대시보드"
+      uiCaption: "DogMate iOS 클라이언트 (SwiftUI 기반 분리불안 감지 및 실시간 원격 제어 앱)"
     },
     overview: "반려견의 짖음과 분리불안 음향을 라즈베리파이 엣지 환경에서 YAMNet 딥러닝 모델로 실시간 분석하고, 온습도·조도·초음파 센서 데이터를 3초 주기로 Google Cloud Run 백엔드에 전송합니다. 견주는 iOS SwiftUI 네이티브 앱을 통해 실시간 환경을 확인하고 원격으로 간식 디스펜서를 제어하거나 안정 음성을 전달합니다.",
     architecture: `[라즈베리파이 3B+ (Edge AI)]
@@ -159,9 +165,9 @@ const PROJECTS_DATA = [
     ],
     images: {
       swagger: "assets/images/projects/smoking-area-swagger.png",
-      ui: "assets/images/projects/smoking-area-admin.png",
+      ui: "assets/images/projects/smoking-area-ui.png",
       swaggerCaption: "Smoking Area Backend REST API Swagger",
-      uiCaption: "관리자 제보 검수 및 현장 승인 관리 포털"
+      uiCaption: "여기흡연 모바일 웹 클라이언트 (Google Maps 연동 및 실시간 흡연구역 탐색)"
     },
     overview: "길거리 간접흡연 피해를 방지하고 흡연자의 편의를 돕는 위치 기반 흡연구역 지도 서비스입니다. 공공데이터를 연계해 위/경도 기반 반경 검색(Haversine)을 제공하며, 시민이 새로운 흡연구역을 사진과 함께 제보하고 관리자가 검수·승인하는 참여형 제보 파이프라인을 구축했습니다.",
     architecture: `[클라이언트 (Web / Mobile)]
@@ -187,7 +193,8 @@ const PROJECTS_DATA = [
       }
     ],
     links: [
-      { label: "GitHub Repository", url: "https://github.com/kmj830/smoking-area-backend" }
+      { label: "Backend Repository", url: "https://github.com/kmj830/smoking-area-backend" },
+      { label: "Frontend Repository (KimGyuR)", url: "https://github.com/KimGyuR/Smoking-Searching-App" }
     ]
   },
   {
@@ -258,6 +265,7 @@ const PROJECTS_DATA = [
     categories: ["backend", "ai"],
     status: "진행 중",
     statusType: "progress",
+    hasUiTab: false,
     affiliation: "개인 프로젝트",
     period: "2026.08 - 진행 중",
     role: "Spring AI 기반 LLM 오케스트레이션, Google Cloud GCP 연동 및 API 아키텍처 설계",
@@ -278,8 +286,8 @@ const PROJECTS_DATA = [
     images: {
       swagger: "assets/images/projects/workguard-swagger.png",
       ui: "assets/images/projects/workguard-swagger.png",
-      swaggerCaption: "WorkGuard Gemini 질의응답 API Swagger",
-      uiCaption: "Google Gemini 연동 AI 안전 규정 질의응답 콘솔"
+      swaggerCaption: "WorkGuard Spring AI & Google Gemini 질의응답 Swagger 명세",
+      uiCaption: "WorkGuard Spring AI & Google Gemini 질의응답 Swagger 명세"
     },
     overview: "산업 현장에서 근로자와 안전 관리자가 안전 수칙 및 규정을 실시간으로 질의하고 작업 위험도를 사전 평가할 수 있는 스마트 안전 관리 API입니다. Java와 Spring Boot, Spring AI 및 Google Gemini Flash 모델을 도입하여 초저지연 AI 응답 파이프라인을 구축하고 있습니다.",
     architecture: `[산업 현장 작업자 / 관리자 시스템]
@@ -384,24 +392,41 @@ function renderProjects(filterCategory = "all") {
 
       <!-- Preview Image Showcase with View Toggle -->
       <div class="project-preview-box">
-        <div class="preview-tabs">
-          <button type="button" class="preview-tab-btn active" onclick="switchPreview('${p.id}', 'ui', this)">
-            <span>구동 화면</span>
-          </button>
-          <button type="button" class="preview-tab-btn" onclick="switchPreview('${p.id}', 'swagger', this)">
-            <span>스웨거 API</span>
-          </button>
-        </div>
-        <div class="preview-frame">
-          <img id="preview-img-${p.id}" src="${p.images.ui}" alt="${p.name} 구동 화면" loading="lazy" />
-          <span id="preview-caption-${p.id}" class="preview-caption">${p.images.uiCaption}</span>
-        </div>
+        ${p.hasUiTab === false ? `
+          <div class="preview-tabs single-tab">
+            <span class="preview-tab-single">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              스웨거 REST API 명세
+            </span>
+          </div>
+          <div class="preview-frame">
+            <img id="preview-img-${p.id}" src="${p.images.swagger}" alt="${p.name} 스웨거 명세" loading="lazy" />
+            <span id="preview-caption-${p.id}" class="preview-caption">${p.images.swaggerCaption}</span>
+          </div>
+        ` : `
+          <div class="preview-tabs">
+            <button type="button" class="preview-tab-btn active" onclick="switchPreview('${p.id}', 'ui', this)">
+              <span>구동 화면</span>
+            </button>
+            <button type="button" class="preview-tab-btn" onclick="switchPreview('${p.id}', 'swagger', this)">
+              <span>스웨거 API</span>
+            </button>
+          </div>
+          <div class="preview-frame">
+            <img id="preview-img-${p.id}" src="${p.images.ui}" alt="${p.name} 구동 화면" loading="lazy" />
+            <span id="preview-caption-${p.id}" class="preview-caption">${p.images.uiCaption}</span>
+          </div>
+        `}
       </div>
 
       <div class="project-body">
         <h3 class="project-title">${p.name}</h3>
         <p class="project-subtitle">${p.subtitle}</p>
-        <p class="project-overview-short">${p.overview}</p>
+        <p class="project-overview-short">${formatRichText(p.overview)}</p>
       </div>
 
       <!-- Quick Metrics Grid -->
@@ -535,44 +560,56 @@ function openProjectModal(projectId) {
   const modalTechBadges = document.getElementById("modal-tech-badges");
   const modalLinks = document.getElementById("modal-links");
 
-  // Dual Screenshot Showcase in Modal
+  // Dual or Single Screenshot Showcase in Modal
   const modalScreenshots = document.getElementById("modal-screenshots");
   if (modalScreenshots) {
-    modalScreenshots.innerHTML = `
-      <div class="modal-gallery-grid">
-        <div class="gallery-item">
-          <div class="gallery-label">
-            <span class="badge-gallery">구동 화면 / 인터페이스</span>
-            <span>${project.images.uiCaption}</span>
-          </div>
-          <img src="${project.images.ui}" alt="${project.name} 구동 화면" class="gallery-img" />
-        </div>
-        <div class="gallery-item">
+    if (project.hasUiTab === false) {
+      modalScreenshots.innerHTML = `
+        <div class="modal-gallery-single">
           <div class="gallery-label">
             <span class="badge-gallery">스웨거 REST API 명세</span>
             <span>${project.images.swaggerCaption}</span>
           </div>
           <img src="${project.images.swagger}" alt="${project.name} 스웨거 명세" class="gallery-img" />
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      modalScreenshots.innerHTML = `
+        <div class="modal-gallery-grid">
+          <div class="gallery-item">
+            <div class="gallery-label">
+              <span class="badge-gallery">구동 화면 / 인터페이스</span>
+              <span>${project.images.uiCaption}</span>
+            </div>
+            <img src="${project.images.ui}" alt="${project.name} 구동 화면" class="gallery-img" />
+          </div>
+          <div class="gallery-item">
+            <div class="gallery-label">
+              <span class="badge-gallery">스웨거 REST API 명세</span>
+              <span>${project.images.swaggerCaption}</span>
+            </div>
+            <img src="${project.images.swagger}" alt="${project.name} 스웨거 명세" class="gallery-img" />
+          </div>
+        </div>
+      `;
+    }
   }
 
   modalTitle.textContent = project.name;
   modalSubtitle.textContent = project.subtitle;
   modalAffiliation.textContent = `${project.affiliation} · ${project.period} · 역할: ${project.role}`;
-  modalOverview.textContent = project.overview;
+  modalOverview.innerHTML = formatRichText(project.overview);
   modalArchitecture.textContent = project.architecture;
 
   modalTroubleshooting.innerHTML = project.troubleshooting.map((t, idx) => `
     <div class="trouble-item">
       <div class="trouble-challenge">
         <span class="badge-challenge">Challenge ${idx + 1}</span>
-        <p><strong>문제:</strong> ${t.problem}</p>
+        <p><strong>문제:</strong> ${formatRichText(t.problem)}</p>
       </div>
       <div class="trouble-solution">
         <span class="badge-solution">Solution</span>
-        <p><strong>해결:</strong> ${t.solution}</p>
+        <p><strong>해결:</strong> ${formatRichText(t.solution)}</p>
       </div>
     </div>
   `).join("");
